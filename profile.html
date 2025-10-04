@@ -3,12 +3,336 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Karan - Portfolio</title>
+    <title>Karan Hassan Balarama - Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        nav {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 20px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Main Content */
+        main {
+            margin-top: 80px;
+            min-height: calc(100vh - 80px);
+        }
+
+        .page {
+            display: none;
+            padding: 2rem 0;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Home Page */
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        .hero .tagline {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.3s forwards;
+        }
+
+        .hero .cta-button {
+            display: inline-block;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+            color: white;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.6s forwards;
+        }
+
+        .hero .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        /* About Page */
+        .about-content {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 2rem 0;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .skill-tag {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+        }
+
+        /* Projects Page - Interactive Gallery */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            padding: 2rem 0;
+        }
+
+        .project-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.8), rgba(118, 75, 162, 0.8));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 1;
+        }
+
+        .project-card:hover::before {
+            opacity: 1;
+        }
+
+        .project-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+        }
+
+        .project-image {
+            height: 200px;
+            background: linear-gradient(45deg, #ff9a9e, #fecfef);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-content {
+            padding: 1.5rem;
+            position: relative;
+            z-index: 2;
+            transition: all 0.4s ease;
+        }
+
+        .project-card:hover .project-content {
+            color: white;
+        }
+
+        .project-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-description {
+            margin-bottom: 1rem;
+            opacity: 0.8;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .project-link {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            color: inherit;
+            text-decoration: none;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .project-card:hover .project-link {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Contact Page */
+        .contact-content {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 2rem 0;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .contact-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-links {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        /* Page Titles */
+        .page-title {
+            text-align: center;
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards;
+        }
+    </style>
 </head>
 <body>
     <nav>
         <div class="container">
-            <div class="logo">Karan Hassan Balarama</div>
+            <div class="logo">Graduate Student</div>
             <ul class="nav-links">
                 <li><a href="#" class="nav-link active" data-page="home">Home</a></li>
                 <li><a href="#" class="nav-link" data-page="about">About</a></li>
@@ -21,14 +345,82 @@
     <main>
         <!-- Home Page -->
         <div id="home" class="page active">
-
+            <div class="hero">
+                <div class="container">
+                    <h1>Karan Hassan Balarama</h1>
+                    <h2>MS CS(May 2026) | Software Engineer | Full-Stack Developer</h2>
+                    <p class="tagline">Crafting digital experiences with clean code and creative solutions</p>
+                    <a href="#" class="cta-button nav-link" data-page="projects">View My Work</a>
+                </div>
+            </div>
         </div>
 
         <!-- About Page -->
         <div id="about" class="page">
             <div class="container">
                 <h2 class="page-title">About Me</h2>
-          
+                <div class="about-content">
+                    <p>I am a master's student in Computer Science at the University of
+                        Massachusetts Lowell, with over two years of industry experience. I have
+                        expertise in a variety of technologies, including Java, Python, React.js, Angular, .NET Core, and Azure cloud services.
+                    </p>
+                     <h3 style="margin-top: 2rem;">Career Interests</h3>
+                            <p>I'm passionate about web development, user experience design, and emerging technologies like AI and machine learning. I love working on projects that challenge me to learn new technologies and solve complex problems.</p>
+                       
+                    
+                    <div class="about-grid">
+                        <div>
+                            <h3>Education</h3>
+                            <hr>
+                            <p><Strong>Master of Science in Computer Science</Strong><br>
+                            University of Massachusetts Lowell, Expected Graduation -May 2026</p>
+                            <p style="font-size: 13px;"><strong>Related Coursework:</strong> <em>Computer Networks and Forensics,Data Structures & Algorithms,Operating Systems.</em></p>
+                            <br>
+                            <p><strong>Bachelor of Science in Computer Science</strong><br>
+                            Malnad College of Engineer,Hassan - 2022</p>
+                            <p style="font-size: 13px;"><strong>Related Coursework:</strong> <em>Data Structures & Algorithms,Object-Oriented Programming.</em></p>
+                            <br>
+                            <h3>Professional</h3>
+                            <hr>
+                            <p><Strong>Graduate Teaching Assistant</Strong><br>
+                            <em style="font-size: 13px;">University of Massachusetts Lowell,  JAN-MAY 2025</em></p>
+                            <ul>
+                                <li>Assisted in teaching the Operating Systems course under the professor Lewis Tseng.</li>
+                                <li>Grade assignments, projects, and exams, providing detailed feedback to improve student understanding.</li>
+                            </ul>
+                            <br>
+                            <p><strong>Software Engineer</strong><br>
+                            <em style="font-size: 13px;">Spurtree Technologies,Bangaluru, AUG 2022 - JUNE 2024 </em></p>
+                            <ul>
+                                <li>I have developed cross-platform mobile applications using React Native and Xamarin, delivering seamless user experiences across multiple devices. My proficiency in .NET Core has enabled me to build robust, scalable applications, while my expertise in Azure Functions allowed me to implement serverless computing solutions that improved scalability and responsiveness.</li>
+                                <li>By leveraging Entity Framework, I optimized database interactions, significantly improving CRUD operations and streamlining complex data retrieval through LINQ, which enhanced overall application performance. My use of ADO.NET ensured tight control over database operations, leading to improved data integrity and peak system efficiency.</li>
+                                <li>Additionally, I have hands-on experience with Angular and contributed to Progressive Web Application (PWA) projects, delivering fast, reliable, and user-friendly web applications that function seamlessly across various platforms.</li>
+                            </ul>   
+                             <br>
+                            <p><strong>MERN Developer intern</strong><br>
+                            <em style="font-size: 13px;">Mindtree,Bangaluru, MAR 2022 - JULY 2022 </em></p>
+                            <ul>
+                                <li>I am proficient in the MERN stack, developing efficient and high-performing web applications using MongoDB, Express.js, React, and Node.js. My expertise in MongoDB has enabled me to manage large-scale datasets effectively, ensuring optimal performance in dynamic web applications.</li>
+                            </ul>                        
+                        
+                        </div>
+                        <div>
+                            <h3>Skills</h3>
+                            <div class="skills-list">
+                                <span class="skill-tag">JavaScript</span>
+                                <span class="skill-tag">React</span>
+                                <span class="skill-tag">Node.js</span>
+                                <span class="skill-tag">Python</span>
+                                <span class="skill-tag">HTML/CSS</span>
+                                <span class="skill-tag">MongoDB</span>
+                                <span class="skill-tag">Git</span>
+                                <span class="skill-tag">SQL</span>
+                                <span class="skill-tag">AWS</span>
+                                <span class="skill-tag">Docker</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -36,7 +428,79 @@
         <div id="projects" class="page">
             <div class="container">
                 <h2 class="page-title">My Projects</h2>
-              
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <div class="project-image">🛒</div>
+                        <div class="project-content">
+                            <h3 class="project-title">E-Commerce Platform</h3>
+                            <p class="project-description">A full-stack e-commerce solution built with React, Node.js, and MongoDB. Features include user authentication, payment processing, and admin dashboard.</p>
+                            <div class="project-links">
+                                <a href="#" class="project-link">GitHub</a>
+                                <a href="#" class="project-link">Live Demo</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-image">📱</div>
+                        <div class="project-content">
+                            <h3 class="project-title">Task Management App</h3>
+                            <p class="project-description">A responsive task management application with drag-and-drop functionality, built using React and Firebase for real-time updates.</p>
+                            <div class="project-links">
+                                <a href="#" class="project-link">GitHub</a>
+                                <a href="#" class="project-link">Live Demo</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-image">🌤️</div>
+                        <div class="project-content">
+                            <h3 class="project-title">Weather Dashboard</h3>
+                            <p class="project-description">An interactive weather dashboard that displays current conditions and forecasts using multiple APIs, built with vanilla JavaScript and modern CSS.</p>
+                            <div class="project-links">
+                                <a href="#" class="project-link">GitHub</a>
+                                <a href="#" class="project-link">Live Demo</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-image">📊</div>
+                        <div class="project-content">
+                            <h3 class="project-title">Data Visualization Tool</h3>
+                            <p class="project-description">A data visualization dashboard built with D3.js and Python Flask, allowing users to upload CSV files and create interactive charts.</p>
+                            <div class="project-links">
+                                <a href="#" class="project-link">GitHub</a>
+                                <a href="#" class="project-link">Live Demo</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-image">🎮</div>
+                        <div class="project-content">
+                            <h3 class="project-title">Browser Game</h3>
+                            <p class="project-description">An engaging browser-based game built with HTML5 Canvas and JavaScript, featuring smooth animations and responsive controls.</p>
+                            <div class="project-links">
+                                <a href="#" class="project-link">GitHub</a>
+                                <a href="#" class="project-link">Play Game</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-image">💬</div>
+                        <div class="project-content">
+                            <h3 class="project-title">Chat Application</h3>
+                            <p class="project-description">A real-time chat application with multiple rooms, built using Socket.io, Express.js, and React with modern UI design.</p>
+                            <div class="project-links">
+                                <a href="#" class="project-link">GitHub</a>
+                                <a href="#" class="project-link">Live Demo</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -44,9 +508,80 @@
         <div id="contact" class="page">
             <div class="container">
                 <h2 class="page-title">Get In Touch</h2>
-                
+                <div class="contact-content">
+                    <h3>Let's connect and collaborate!</h3>
+                    <p>I'm always interested in new opportunities and exciting projects. Whether you have a question about my work or want to discuss a potential collaboration, I'd love to hear from you.</p>
+                    
+                    <div class="contact-links">
+                        <a href="mailto:alex.johnson@email.com" class="contact-link">
+                            📧 Email
+                        </a>
+                        <a href="https://linkedin.com/in/alexjohnson" class="contact-link">
+                            💼 LinkedIn
+                        </a>
+                        <a href="https://github.com/alexjohnson" class="contact-link">
+                            💻 GitHub
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
+
+    <script>
+        // Navigation functionality
+        const navLinks = document.querySelectorAll('.nav-link');
+        const pages = document.querySelectorAll('.page');
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                const targetPage = link.getAttribute('data-page');
+                
+                // Remove active class from all nav links and pages
+                navLinks.forEach(nav => nav.classList.remove('active'));
+                pages.forEach(page => page.classList.remove('active'));
+                
+                // Add active class to clicked nav link and corresponding page
+                link.classList.add('active');
+                document.getElementById(targetPage).classList.add('active');
+            });
+        });
+
+        // Smooth scrolling for navbar on scroll
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 100) {
+                nav.style.background = 'rgba(255, 255, 255, 0.95)';
+                nav.style.color = '#333';
+            } else {
+                nav.style.background = 'rgba(255, 255, 255, 0.1)';
+                nav.style.color = 'white';
+            }
+        });
+
+        // Project card interactions
+        const projectCards = document.querySelectorAll('.project-card');
+        
+        projectCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.zIndex = '10';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.zIndex = '1';
+            });
+        });
+
+        // Add parallax effect to hero section
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero');
+            if (hero && document.getElementById('home').classList.contains('active')) {
+                hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+            }
+        });
+    </script>
 </body>
 </html>
